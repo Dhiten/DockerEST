@@ -6,9 +6,9 @@ Instrucciones para crear los contenedores y conectarlos:
 * cd DockerEST
 * docker build -t estapp .
 3. Paso 3: Crear una red local: 
-* docker network create --atachable EstRed (creo la red)
+* docker network create --atachable EstRed 
 4. Paso 4: Crear un contenedor con mongo db
-* docker run -d --name db mongo (creo el contenedor de la BBDD)
+* docker run -d --name db mongo 
 5. Paso 5: Conectar el  contenedor a la red:
 * docker network connect EstRed db
 6. Paso 6: Usar la imagen creada en el paso 2 para crear un contendor:
