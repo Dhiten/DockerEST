@@ -1,14 +1,13 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const mariadb = require("mariadb").MariaDBClient;
 const MongoClient = require('mongodb').MongoClient
 
 // Connection URL
-const mariaURL = process.env.MARIA_URL || 'mariadb://localhost:27017/test';
+const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017/test';
 
 app.get('/', (req, res) => {
-  mariadb.connect(mariaURL, { useNewUrlParser: true }, (err, db) => {
+  MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
     if (err) {
       res.status(500).send('💥 BOOM 💥: ' + err);
       console.log('notok')
