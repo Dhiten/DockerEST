@@ -7,3 +7,5 @@ Instrucciones para crear los contenedores y conectarlos:
 * docker build -t estapp .
 3. Paso 3: crear los contenedores con docker compose
 * docker-compose up -d
+4. Paso 4: Verificar la conexión a la base de datos
+* curl http://localhost:3000/
