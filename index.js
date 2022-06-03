@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
       var dbo = db.db("db");
       dbo.createCollection("tablaA", function(err, res) {
       if (err) throw err;
-      console.log("Collection created!");
+      res.status(500).send('created');
       db.close();
     });
     }
