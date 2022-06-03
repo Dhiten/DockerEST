@@ -4,7 +4,7 @@ services:
   app:
     image: estapp
     environment:
-      MONGO_URL: "mongodb://db:27017/test"
+      MARIA_URL: "mariadb://db:27017/test"
     depends_on:
       - db
     ports:
