@@ -10,16 +10,13 @@ app.get('/', (req, res) => {
   MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
     if (err) {
       res.status(500).send('NOTOK');
+      console.log('notok')
     } else {
-      var dbo = db.db("db");
-      dbo.createCollection("tablaA", function(err, res) {
-      if (err) throw err;
-      res.status(500).send('created');
+      res.send('OK! 😎');
+      console.log('ok')
       db.close();
-    });
     }
   });
-  var db = MongoClient.connection;
 });
 
 app.listen(port, () => console.log(`Server listening on port ${port}!`))
