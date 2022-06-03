@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient
 const mariaURL = process.env.MARIA_URL || 'mariadb://localhost:27017/test';
 
 app.get('/', (req, res) => {
-  mariadb.connect(mariaUrl, { useNewUrlParser: true }, (err, db) => {
+  mariadb.connect(mariaURL, { useNewUrlParser: true }, (err, db) => {
     if (err) {
       res.status(500).send('💥 BOOM 💥: ' + err);
       console.log('notok')
