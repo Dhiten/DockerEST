@@ -4,7 +4,7 @@ services:
   app:
     image: estapp
     environment:
-      MONGO_URL: "mongodb://db:27017/test"
+      MONGO_URL: "mongodb://db:27017/db"
     depends_on:
       - db
     ports:
