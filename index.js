@@ -9,10 +9,10 @@ const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017/test';
 app.get('/', (req, res) => {
   MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
     if (err) {
-      res.status(500).send('💥 BOOM 💥: ' + err);
+      res.status(500).send('NOTOK');
       console.log('notok')
     } else {
-      res.send('Me conecté a la DB! 😎');
+      res.send('OK! 😎');
       console.log('ok')
       db.close();
     }
