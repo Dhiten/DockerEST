@@ -31,10 +31,12 @@ app.get('/:IDES',(req,res)=>{
       res.status(500).send('NOK');
     } else {
       let ides=req.params.IDES
-      let date = Date.now()
+      let date = new Date()
+      let times =date.getDate().toString()+'-'+date.getMonth()+'-'+date.getFullYear()+'-'+date.getHours()+':'+date.getMinutes()
+      date= date.getDate().toString()+date.getMonth()+date.getFullYear()+date.getHours()+date.getMinutes()
       let hash = ides+date
       var dbo = db.db("db");
-      var myobj = { ID: ides, timestamp: date, hash:hash};
+      var myobj = { ID: ides, timestamp: times, hash:hash,};
       dbo.collection("tablas").insertOne(myobj, function(err, res) {
       if (err) console.log(err);
       });
@@ -53,7 +55,8 @@ app.get('/:IDESA/:HASH',(req, res)=>{
       var dbo = db.db("db");
       let id=req.params.IDESA
       let hash = req.params.HASH
-      let date = Date.now()
+      let date= new Date()
+      let times =date.getDate().toString()+'-'+date.getMonth()+'-'+date.getFullYear()+'-'+date.getHours()+':'+date.getMinutes()
       let answer
       var query = { ID: id.toString(), hash:hash.toString() };
       dbo.collection("tablas").find(query).toArray(function(err, result) {
@@ -62,17 +65,25 @@ app.get('/:IDESA/:HASH',(req, res)=>{
         }else{
           if(result.length!=0){
             console.log(result)
-            answer="ok"
-            var myobj={ID:id, timestamp:date, hash:hash, res:answer}
+            console.log(hash.toString().substring(1))
+            datetest=result[0].timestamp.split('-')
+            datenow=times.split('-')
+            if((datenow[0]-datetest[0])===0 && (datenow[1]-datetest[1])===0 && (datenow[2]-datetest[2])===0 && (datenow[3].split(':')[0]-datetest[3].split(':')[0])<=4){
+              answer="ok"
+              res.send('ok')
+            }else{
+              answer ='nok'
+              res.send('nok')
+            }
+            var myobj={ID:id, timestamp:times, hash:hash, res:answer}
             dbo.collection("tablaa").insertOne(myobj, function(err, res) {
             if (err) console.log(err);
             });
             console.log(myobj)
-            res.send('ok')
           }else{
             console.log(result)
             answer="nok"
-            var myobj={ID:id, timestamp:date, hash:hash, res:answer}
+            var myobj={ID:id, timestamp:times, hash:hash, res:answer}
             dbo.collection("tablaa").insertOne(myobj, function(err, res) {
             if (err) console.log(err);
             });
@@ -92,30 +103,41 @@ app.get('/p/t/s',(req,res)=>{
     if(err){
       res.send ('La tabla no se ha creado')
     }else{
-      let tablaa
-      let tablas
+      let tablasTex= 'Tabla S'
       var dbo= db.db("db")
-      dbo.collection('tablaa').find({}).toArray(function(err, result) {
-        if (err) console.log(err);
-        console.log('Tabla A',result)
-        tablaa=result
-      });
       dbo.collection('tablas').find({}).toArray(function(err, result) {
         if (err) console.log(err);
-        console.log('Tabla S',result)
-        tablas=result
+        console.log('Tabla S',JSON.stringify(result))
+        tablasTex=tablasTex+'\n'+JSON.stringify(result)
+        res.send(tablasTex)
       });
-      dbo.collection("tablaa").drop(function(err, delOK) {
-        if (err) throw err;
-        if (delOK) console.log("Collection deleted");
-      }); 
       dbo.collection("tablas").drop(function(err, delOK) {
         if (err) throw err;
         if (delOK) console.log("Collection deleted");
         db.close();
       }); 
-      res.send(tablaa)
-      res.send(tablas)
+    }
+  })
+});
+app.get('/p/t/a',(req,res)=>{
+  MongoClient.connect(mongoURL, {useNewUrlParser:true},(err,db)=>{
+    if(err){
+      res.send ('La tabla no se ha creado')
+    }else{
+      let tablasTex= 'Tabla A'
+      var dbo= db.db("db")
+      dbo.collection('tablaa').find({}).toArray(function(err, result) {
+        if (err) console.log(err);
+        console.log('Tabla A',JSON.stringify(result))
+        tablasTex=tablasTex+'\n'+JSON.stringify(result)
+        res.send(tablasTex)
+      });
+      
+      dbo.collection("tablaa").drop(function(err, delOK) {
+        if (err) throw err;
+        if (delOK) console.log("Collection deleted");
+        db.close();
+      }); 
     }
   })
 });
