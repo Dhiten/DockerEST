@@ -11,7 +11,6 @@ app.get('/', (req, res) => {
     if (err) {
       res.status(500).send('NOTOK');
     } else {
-      res.send('OK! 😎');
       console.log('notok')
       var dbo = db.db("db");
       dbo.createCollection("tablaa", function(err, res) {
@@ -20,7 +19,7 @@ app.get('/', (req, res) => {
       dbo.createCollection("tablas", function(err, res) {
         if (err) throw err;
         });
-      res.send('tables created')
+      res.send('OK! 😎, tables created');
       db.close();
     }
   });
