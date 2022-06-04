@@ -19,4 +19,17 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/:ID',(req,res)=>{
+  MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+    if (err) {
+      res.status(500).send('NOTOK');
+      console.log('notok')
+    } else {
+      res.send(res.body);
+      db.close();
+    }
+  });
+});
+
+
 app.listen(port, () => console.log(`Server listening on port ${port}!`))
