@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
         if (err) throw err;
         });
       res.send('OK! 😎, tables created');
-      db.close();
+      //db.close();
     }
   });
 });
@@ -31,7 +31,14 @@ app.get('/:ID',(req,res)=>{
       res.status(500).send('NOTOK');
       console.log('notok')
     } else {
-      res.send('hola');
+      let id=req.params.ID
+      let date = Date.now()
+      var dbo = db.db("db");
+      var myobj = { ID: id, timestamp: date, hash:id+date };
+      dbo.collection("tablas").insertOne(myobj, function(err, res) {
+      if (err) {res.send(err)};
+      });
+      res.send('insertadocorrectamente',myobj);
       //db.close();
     }
   });
