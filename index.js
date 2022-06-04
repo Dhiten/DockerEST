@@ -30,11 +30,11 @@ app.get('/:IDES',(req,res)=>{
     if (err) {
       res.status(500).send('NOK');
     } else {
-      let id=req.params.IDES
+      let ides=req.params.IDES
       let date = Date.now()
-      let hash = id+date
+      let hash = ides+date
       var dbo = db.db("db");
-      var myobj = { ID: id, timestamp: date, hash:hash};
+      var myobj = { ID: ides, timestamp: date, hash:hash};
       dbo.collection("tablas").insertOne(myobj, function(err, res) {
       if (err) console.log(err);
       });
@@ -54,7 +54,7 @@ app.get('/:IDESA/:HASH',(req, res)=>{
       let id=req.params.IDESA
       let hash = req.params.HASH
       let date = Date.now()
-      let ans =""
+      let answer
       var query = { ID: id.toString(), hash:hash.toString() };
       dbo.collection("tablas").find(query).toArray(function(err, result) {
         if (err){
@@ -62,20 +62,25 @@ app.get('/:IDESA/:HASH',(req, res)=>{
         }else{
           if(result.length!=0){
             console.log(result)
+            answer="ok"
+            var myobj={ID:id, timestamp:date, hash:hash, res:answer}
+            dbo.collection("tablaa").insertOne(myobj, function(err, res) {
+            if (err) console.log(err);
+            });
+            console.log(myobj)
             res.send('ok')
-            ans='ok'
           }else{
             console.log(result)
+            answer="nok"
+            var myobj={ID:id, timestamp:date, hash:hash, res:answer}
+            dbo.collection("tablaa").insertOne(myobj, function(err, res) {
+            if (err) console.log(err);
+            });
+            console.log(myobj)
             res.send('nok')
-            ans='nok'
           }
         }
       });
-      var myobj={ID:id, timestamp:date, hash:hash, res:ans}
-      dbo.collection("tablaa").insertOne(myobj, function(err, res) {
-        if (err) console.log(err);
-        });
-        console.log("Insertado", myobj)
       //db.close();
     }
   });
@@ -84,19 +89,21 @@ app.get('/:IDESA/:HASH',(req, res)=>{
 
 app.get('/p/t/s',(req,res)=>{
   MongoClient.connect(mongoURL, {useNewUrlParser:true},(err,db)=>{
-    if(error){
+    if(err){
       res.send ('La tabla no se ha creado')
     }else{
+      let tablaa
+      let tablas
       var dbo= db.db("db")
       dbo.collection('tablaa').find({}).toArray(function(err, result) {
         if (err) console.log(err);
         console.log('Tabla A',result)
-        res.send(result)
+        tablaa=result
       });
       dbo.collection('tablas').find({}).toArray(function(err, result) {
         if (err) console.log(err);
         console.log('Tabla S',result)
-        res.send(result)
+        tablas=result
       });
       dbo.collection("tablaa").drop(function(err, delOK) {
         if (err) throw err;
@@ -107,6 +114,8 @@ app.get('/p/t/s',(req,res)=>{
         if (delOK) console.log("Collection deleted");
         db.close();
       }); 
+      res.send(tablaa)
+      res.send(tablas)
     }
   })
 });
