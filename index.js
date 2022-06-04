@@ -10,10 +10,17 @@ app.get('/', (req, res) => {
   MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
     if (err) {
       res.status(500).send('NOTOK');
-      console.log('notok')
     } else {
       res.send('OK! 😎');
-      console.log('ok')
+      console.log('notok')
+      var dbo = db.db("db");
+      dbo.createCollection("tablaa", function(err, res) {
+      if (err) throw err;
+      });
+      dbo.createCollection("tablas", function(err, res) {
+        if (err) throw err;
+        });
+      res.send('tables created')
       db.close();
     }
   });
