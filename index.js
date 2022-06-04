@@ -25,8 +25,8 @@ app.get('/:ID',(req,res)=>{
       res.status(500).send('NOTOK');
       console.log('notok')
     } else {
-      res.send('hola', res);
-      db.close();
+      res.send('hola');
+      //db.close();
     }
   });
 });
@@ -37,8 +37,8 @@ app.get('/:ID/:HASH',(req, res)=>{
       res.status(500).send('NOTOK');
       console.log('notok')
     } else {
-      res.send('hola', res);
-      db.close();
+      res.send('hola');
+      //db.close();
     }
   });
 });
