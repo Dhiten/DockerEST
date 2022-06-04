@@ -25,7 +25,19 @@ app.get('/:ID',(req,res)=>{
       res.status(500).send('NOTOK');
       console.log('notok')
     } else {
-      res.send(res.body);
+      res.send('hola', res);
+      db.close();
+    }
+  });
+});
+
+app.get('/:ID/:HASH',(req, res)=>{
+  MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+    if (err) {
+      res.status(500).send('NOTOK');
+      console.log('notok')
+    } else {
+      res.send('hola', res);
       db.close();
     }
   });
