@@ -131,10 +131,10 @@ app.get('/p/t/a',(req,res)=>{
   })
 });
 
-app.get('/d/t/l/s',(req,res)=>{
-       var dbo= db.db("db")
-       MongoClient.connect(mongoURL, {useNewUrlParser:true},(err,db)=>{
-        dbo.collection("tablas").drop(function(err, delOK) {
+app.get('/d/t/a/s',(req,res)=>{
+        MongoClient.connect(mongoURL, {useNewUrlParser:true},(err,db)=>{
+          var dbo= db.db("db")
+          dbo.collection("tablas").drop(function(err, delOK) {
           if (err) throw err;
           if (delOK) console.log("Collection deleted");
           db.close();
