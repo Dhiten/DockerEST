@@ -131,8 +131,9 @@ app.get('/p/t/a',(req,res)=>{
   })
 });
 
-app.get('/deletetables',(req,res)=>{
+app.get('/d/t/l/s',(req,res)=>{
        var dbo= db.db("db")
+       MongoClient.connect(mongoURL, {useNewUrlParser:true},(err,db)=>{
         dbo.collection("tablas").drop(function(err, delOK) {
           if (err) throw err;
           if (delOK) console.log("Collection deleted");
@@ -143,6 +144,8 @@ app.get('/deletetables',(req,res)=>{
           if (delOK) console.log("Collection deleted");
           db.close();
         }); 
+      });
+      res.send('Tables deleted')
 })
 /**dbo.collection("tablas").find({}).toArray(function(err, result) {
   if (err) throw err;
