@@ -13,7 +13,9 @@ Instrucciones para crear los contenedores y conectarlos:
 * curl http://localhost:3000/ID Donde ID deberá ser el número que se desea asignar
 6. Paso 6: Si se desea verificar un hash y un ID
 * curl http://localhost:3000/ID/HASH Donde ID y HASH serán los valores que se desean verificar
-7. Paso 7: imprimir la tabla S y eliminarla
+7. Paso 7: imprimir la tabla S 
 * curl http://localhost:3000/p/t/s
-8. Paso 8: imprimir la tabla A y eliminarla
+8. Paso 8: imprimir la tabla A 
 * curl http://localhost:3000/p/t/a
+9. Paso 9: borrar las tablas 
+* curl http://localhost:3000/deletetables

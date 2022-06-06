@@ -111,11 +111,6 @@ app.get('/p/t/s',(req,res)=>{
         tablasTex=tablasTex+'\n'+JSON.stringify(result)
         res.send(tablasTex)
       });
-      dbo.collection("tablas").drop(function(err, delOK) {
-        if (err) throw err;
-        if (delOK) console.log("Collection deleted");
-        db.close();
-      }); 
     }
   })
 });
@@ -132,17 +127,23 @@ app.get('/p/t/a',(req,res)=>{
         tablasTex=tablasTex+'\n'+JSON.stringify(result)
         res.send(tablasTex)
       });
-      
-      dbo.collection("tablaa").drop(function(err, delOK) {
-        if (err) throw err;
-        if (delOK) console.log("Collection deleted");
-        db.close();
-      }); 
     }
   })
 });
 
-
+app.get('/deletetables',(req,res)=>{
+       var dbo= db.db("db")
+        dbo.collection("tablas").drop(function(err, delOK) {
+          if (err) throw err;
+          if (delOK) console.log("Collection deleted");
+          db.close();
+        }); 
+        dbo.collection("tablaa").drop(function(err, delOK) {
+          if (err) throw err;
+          if (delOK) console.log("Collection deleted");
+          db.close();
+        }); 
+})
 /**dbo.collection("tablas").find({}).toArray(function(err, result) {
   if (err) throw err;
   console.log(result);
