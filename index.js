@@ -3,7 +3,6 @@ const app = express()
 const port = 3000
 const MongoClient = require('mongodb').MongoClient
 
-// Connection URL process.env.MONGO_URL || 
 const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017/db';
 
 app.get('/', (req, res) => {
@@ -20,7 +19,6 @@ app.get('/', (req, res) => {
         if (err) console.log(err);
         });
       res.send('OK!');
-      //db.close();
     }
   });
 });
@@ -40,9 +38,7 @@ app.get('/:IDES',(req,res)=>{
       dbo.collection("tablas").insertOne(myobj, function(err, res) {
       if (err) console.log(err);
       });
-      console.log("Insertado", myobj)
       res.send(hash);
-      //db.close();
     }
   });
 });
@@ -64,8 +60,6 @@ app.get('/:IDESA/:HASH',(req, res)=>{
           res.send('problema con la busqueda')
         }else{
           if(result.length!=0){
-            console.log(result)
-            console.log(hash.toString().substring(1))
             datetest=result[0].timestamp.split('-')
             datenow=times.split('-')
             if((datenow[0]-datetest[0])===0 && (datenow[1]-datetest[1])===0 && (datenow[2]-datetest[2])===0 && (datenow[3].split(':')[0]-datetest[3].split(':')[0])<=4){
@@ -79,20 +73,16 @@ app.get('/:IDESA/:HASH',(req, res)=>{
             dbo.collection("tablaa").insertOne(myobj, function(err, res) {
             if (err) console.log(err);
             });
-            console.log(myobj)
           }else{
-            console.log(result)
             answer="nok"
             var myobj={ID:id, timestamp:times, hash:hash, res:answer}
             dbo.collection("tablaa").insertOne(myobj, function(err, res) {
             if (err) console.log(err);
             });
-            console.log(myobj)
             res.send('nok')
           }
         }
       });
-      //db.close();
     }
   });
 });
@@ -107,7 +97,6 @@ app.get('/p/t/s',(req,res)=>{
       var dbo= db.db("db")
       dbo.collection('tablas').find({}).toArray(function(err, result) {
         if (err) console.log(err);
-        console.log('Tabla S',JSON.stringify(result))
         tablasTex=tablasTex+'\n'+JSON.stringify(result)
         res.send(tablasTex)
       });
@@ -147,13 +136,4 @@ app.get('/d/t/a/s',(req,res)=>{
       });
       res.send('Tables deleted')
 })
-/**dbo.collection("tablas").find({}).toArray(function(err, result) {
-  if (err) throw err;
-  console.log(result);
-});
-dbo.collection("tablas").drop(function(err, delOK) {
-  if (err) throw err;
-  if (delOK) console.log("Collection deleted");
-  db.close();
-}); **/
 app.listen(port, () => console.log(`Server listening on port ${port}!`))
